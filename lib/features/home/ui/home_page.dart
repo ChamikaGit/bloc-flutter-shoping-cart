@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_sample_shoping_app/features/cart/ui/cart.dart';
+import 'package:flutter_bloc_sample_shoping_app/features/home/ui/product_tile_widget.dart';
 import 'package:flutter_bloc_sample_shoping_app/features/wishlist/ui/wishlist.dart';
 
 import '../bloc/home_bloc.dart';
@@ -28,7 +29,8 @@ class _HomePageState extends State<HomePage> {
         return current is HomeActionState;
       },
       buildWhen: (previous, current) {
-        return current is! HomeActionState; // Means this is definitely a HomeState.
+        return current
+            is! HomeActionState; // Means this is definitely a HomeState.
       },
       listener: (context, state) {
         if (state is HomeNavigateToWishListPageActionState) {
@@ -39,6 +41,26 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return const CartPage();
           }));
+        }else if (state is HomeAddedToCartActionState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Item added to cart!"),
+              duration: Duration(seconds: 2),
+              action: SnackBarAction(
+                label: "Undo",
+                onPressed: () {
+                  // Add logic to undo adding to cart if needed
+                },
+              ),
+            ),
+          );
+        } else if (state is HomeAddedToWishListActionState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Item added to wishlist!"),
+              duration: Duration(seconds: 2),
+            ),
+          );
         }
       },
       bloc: homeBloc,
@@ -55,6 +77,8 @@ class _HomePageState extends State<HomePage> {
             body: const Center(child: CircularProgressIndicator()),
           );
         } else if (state is HomeLoadedSuccessState) {
+          final productList = state.products;
+
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.teal,
@@ -81,11 +105,24 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            body: const Center(
-              child: Text("Products loaded successfully."),
+            body: Column(
+              children: [
+                const SizedBox(height: 20),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: productList.length,
+                      itemBuilder: (context, index) {
+                        return ProductTileWidget(
+                            homeBloc: homeBloc,
+                            productDataModel: productList[index]);
+                      }),
+                ),
+              ],
             ),
           );
         } else if (state is HomeErrorState) {
+          final errorMessage = state.message;
+
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.teal,
@@ -94,10 +131,10 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            body: const Center(
+            body: Center(
               child: Text(
-                "Error occurred!",
-                style: TextStyle(fontSize: 20),
+                errorMessage,
+                style: const TextStyle(fontSize: 20),
               ),
             ),
           );
@@ -109,5 +146,4 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
 }

@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter_bloc_sample_shoping_app/features/home/models/home_product_data_model.dart';
 import 'package:meta/meta.dart';
 
+import '../../../data/cart_items.dart';
 import '../../../data/grocery_data.dart';
+import '../../../data/wishlist_items.dart';
+import '../models/home_product_data_model.dart';
 
 part 'home_event.dart';
 
@@ -23,6 +25,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   //this call once user reach to the home screen(app open)
   FutureOr<void> homeInitialEvent(HomeInitialEvent event,
       Emitter<HomeState> emit) async {
+    //loading states
     emit(HomeLoadingState());
 
     try {
@@ -55,11 +58,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> homeProductWishListButtonClickedEvent(
       HomeProductWishListButtonClickedEvent event, Emitter<HomeState> emit) {
     print('WishList Clicked');
+    wishList.add(event.clickedProduct);
+    emit(HomeAddedToWishListActionState());
+
   }
 
   FutureOr<void> homeProductCartButtonClickedEvent(
       HomeProductCartButtonClickedEvent event, Emitter<HomeState> emit) {
     print('Cart Clicked');
+    cartList.add(event.clickedProduct);
+    emit(HomeAddedToCartActionState());
   }
 
 

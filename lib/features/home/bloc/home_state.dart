@@ -27,3 +27,14 @@ final class HomeErrorState extends HomeState{
 final class HomeNavigateToWishListPageActionState extends HomeActionState{}
 
 final class HomeNavigateToCartPageActionState extends HomeActionState{}
+
+final class HomeAddedToWishListActionState extends HomeActionState{
+  //if we want pass some message from bloc side we can define a message on here as well
+}
+final class HomeAddedToCartActionState extends HomeActionState{
+  //if we want pass some message from bloc side we can define a message on here as well
+}
+
+/**
+ * UI----->Event---->Bloc---->Emit--->State--->UI
+ */
