@@ -54,28 +54,35 @@ class _CartPageState extends State<CartPage> {
         }else if(state is CartSuccessState){
            final List<ProductDataModel> cartList = state.cartItems;
 
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.teal,
-              title: const Text(
-                "Cart",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            body: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: cartList.length,
-                        itemBuilder: (context, index) {
-                          return CartTileWidget(
-                              cartBloc: cartBloc,
-                              productDataModel: cartList[index]);
-                        }),
-                  ),
-                ]          ),
-          );
+           if(cartList.isNotEmpty) {
+             return Scaffold(
+               appBar: AppBar(
+                 backgroundColor: Colors.teal,
+                 title: const Text(
+                   "Cart",
+                   style: TextStyle(color: Colors.white),
+                 ),
+               ),
+               body: Column(
+                   children: [
+                     const SizedBox(height: 20),
+                     Expanded(
+                       child: ListView.builder(
+                           itemCount: cartList.length,
+                           itemBuilder: (context, index) {
+                             return CartTileWidget(
+                                 cartBloc: cartBloc,
+                                 productDataModel: cartList[index]);
+                           }),
+                     ),
+                   ]),
+             );
+           }else{
+             return const Center(
+                 child: Text("Product List is Empty",style: TextStyle(
+                     fontSize: 24, fontWeight: FontWeight.bold),)
+             );
+           }
         }else if(state is CartErrorState){
           final errorMessage = state.errorMessage;
           return Scaffold(

@@ -49,18 +49,25 @@ class _WishListPageState extends State<WishListPage> {
           } else if (state is WishlistSuccessState) {
             final List<ProductDataModel> wishlist = state.wishListItems;
 
-            return Column(children: [
-              const SizedBox(height: 20),
-              Expanded(
-                child: ListView.builder(
-                    itemCount: wishlist.length,
-                    itemBuilder: (context, index) {
-                      return WishlistTileWidget(
-                          wishlistBloc: wishlistBloc,
-                          productDataModel: wishlist[index]);
-                    }),
-              ),
-            ]);
+            if(wishlist.isNotEmpty) {
+              return Column(children: [
+                const SizedBox(height: 20),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: wishlist.length,
+                      itemBuilder: (context, index) {
+                        return WishlistTileWidget(
+                            wishlistBloc: wishlistBloc,
+                            productDataModel: wishlist[index]);
+                      }),
+                ),
+              ]);
+            }else{
+              return const Center(
+                child: Text("Product List is Empty",style: TextStyle(
+                    fontSize: 24, fontWeight: FontWeight.bold),)
+              );
+            }
           } else if (state is WishlistErrorState) {
             final error = state.errorMessage;
             return Center(
