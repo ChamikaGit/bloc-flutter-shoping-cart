@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_sample_shoping_app/features/cart/ui/cart.dart';
+import 'package:flutter_bloc_sample_shoping_app/features/cart/ui/cart_page.dart';
 import 'package:flutter_bloc_sample_shoping_app/features/home/ui/product_tile_widget.dart';
-import 'package:flutter_bloc_sample_shoping_app/features/wishlist/ui/wishlist.dart';
+import 'package:flutter_bloc_sample_shoping_app/features/wishlist/ui/wishlist_page.dart';
 
 import '../bloc/home_bloc.dart';
 

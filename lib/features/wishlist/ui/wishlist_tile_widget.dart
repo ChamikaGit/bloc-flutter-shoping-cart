@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc_sample_shoping_app/features/cart/bloc/cart_bloc.dart';
 import 'package:flutter_bloc_sample_shoping_app/features/home/bloc/home_bloc.dart';
 import 'package:flutter_bloc_sample_shoping_app/features/home/models/home_product_data_model.dart';
+import 'package:flutter_bloc_sample_shoping_app/features/wishlist/bloc/wishlist_bloc.dart';
 
-class ProductTileWidget extends StatelessWidget {
+class WishlistTileWidget extends StatelessWidget {
   final ProductDataModel productDataModel;
-  final HomeBloc homeBloc;
+  final WishlistBloc wishlistBloc;
 
-  const ProductTileWidget(
-      {super.key, required this.productDataModel, required this.homeBloc});
+  const WishlistTileWidget(
+      {super.key, required this.productDataModel, required this.wishlistBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +65,7 @@ class ProductTileWidget extends StatelessWidget {
                     // Makes sure the material has no background
                     child: InkWell(
                       onTap: () {
-                        homeBloc.add(HomeProductWishListButtonClickedEvent(
-                            clickedProduct: productDataModel));
+                        // wishlistBloc.add(CartItemRemoveEvent(clickedProduct: productDataModel));
                       },
                       splashColor: Colors.blue.withOpacity(0.3),
                       // Ripple effect color
@@ -73,28 +74,7 @@ class ProductTileWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(80),
                       // Optional: Adds rounded corners
                       child: const Icon(
-                        Icons.favorite_border,
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Material(
-                    color: Colors.transparent,
-                    // Makes sure the material has no background
-                    child: InkWell(
-                      onTap: () {
-                        homeBloc.add(HomeProductCartButtonClickedEvent(
-                            clickedProduct: productDataModel));
-                      },
-                      splashColor: Colors.green.withOpacity(0.3),
-                      // Ripple effect color
-                      highlightColor: Colors.green.withOpacity(0.1),
-                      // Highlight color when tapped
-                      borderRadius: BorderRadius.circular(80),
-                      // Optional: Adds rounded corners
-                      child: const Icon(
-                        Icons.shopping_bag_outlined,
+                        Icons.favorite_rounded,
                         size: 30,
                       ),
                     ),
